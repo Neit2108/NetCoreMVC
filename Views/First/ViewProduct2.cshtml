@@ -1,0 +1,13 @@
+
+@{
+    var product = ViewData["product"] as NetCoreMVC.Models.ProductModel;
+}
+
+<div class="card bg-danger text-white"> 
+    <h1 class="card-header">@product.Name</h1>
+    <div class="card-body">
+        <p class="card-text">
+            Price : @product.Price
+        </p>
+    </div>
+</div>
