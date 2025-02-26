@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    var mess = TempData["Message"] as string;
+    var mess = TempData["StatusMessage"] as string;
     if (!string.IsNullOrEmpty(mess))
     {
         <div class="alert alert-info" role="alert">

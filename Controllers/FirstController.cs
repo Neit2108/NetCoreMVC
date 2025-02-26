@@ -68,15 +68,16 @@ public class FirstController : Controller
             return Redirect(Url.Action("Index", "Home"));
         }
         // Thiet lap Model cho view tu model
-        //return View(product);
+        return View(product);
 
-        // Thiet lap bang viewdata
-        this.ViewData["product"] = product;
-        this.ViewData["Title"] = "Product Detail";
+        // // Thiet lap bang viewdata
+        // this.ViewData["product"] = product;
+        // this.ViewData["Title"] = "Product Detail";
 
-        //Gui du lieu sang trang khac
-        this.TempData["product"] = product;
-        // Doc du lieu o trang khac lan dau se xoa luon
-        return View("ViewProduct2");
+        // //Gui du lieu sang trang khac
+        // this.TempData["product"] = product;
+        // this.TempData.Keep("product"); // Doc du lieu o trang khac lan dau se xoa luon
+        // // Doc du lieu o trang khac lan dau se xoa luon
+        //return View("ViewProduct2");
     }
 }

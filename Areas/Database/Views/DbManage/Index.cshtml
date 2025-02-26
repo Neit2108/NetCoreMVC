@@ -1,0 +1,64 @@
+@using Microsoft.EntityFrameworkCore
+@using NetCoreMVC.Models
+@using System.Data
+@inject AppDbContext dbContext
+
+@{
+    ViewData["Title"] = "Information";
+    var connect = dbContext.Database.GetDbConnection();
+    var db_name = connect.Database;
+    var can_connect = dbContext.Database.CanConnect();
+
+    dbContext.Database.GetPendingMigrations();
+    dbContext.Database.GetAppliedMigrations();
+}
+
+<partial name="_AlertMessage"/>
+
+<h2>Database's Information</h2>
+<h2>
+    - Database : @db_name <br>
+    - Source : @connect.DataSource <br>
+    - State : @connect.State
+</h2>
+<hr>
+<h2>
+    Migrations
+</h2>
+
+@foreach(var item in dbContext.Database.GetPendingMigrations())
+{
+    <p>@item (Pending)</p>
+}
+
+@foreach(var item in dbContext.Database.GetAppliedMigrations())
+{
+    <p>@item</p>
+}
+
+<hr>
+@if(!can_connect){
+    <p class="alert alert-danger">Can't connect to database</p>
+}
+
+@if(dbContext.Database.GetPendingMigrations().Any()){
+    <form method="post">
+        <button class="btn btn-danger" asp-action="Migrate">Create Database : @db_name</button>
+    </form>
+    
+}
+
+@if(can_connect){
+    <h2>Tables</h2>
+    await dbContext.Database.OpenConnectionAsync();
+    var Tables = dbContext.Database.GetDbConnection().GetSchema("Tables");
+    <ul>
+        @foreach(DataRow item in Tables.Rows)
+        {
+            <li>@item["TABLE_NAME"]</li>
+        }
+    </ul>
+
+    <a class="btn btn-danger" asp-action="DeleteDb">Delete Database : @db_name</a>
+    
+}
