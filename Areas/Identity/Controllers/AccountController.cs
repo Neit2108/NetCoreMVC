@@ -511,25 +511,29 @@ namespace NetCoreMVC.Areas.Identity.Controllers
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("ModelState is invalid!");
-
                 foreach (var key in ModelState.Keys)
                 {
                     foreach (var error in ModelState[key].Errors)
                     {
-                        Console.WriteLine($"Field: {key}, Error: {error.ErrorMessage}");
+                        Console.WriteLine($"❌ Field: {key}, Error: {error.ErrorMessage}");
                     }
                 }
 
-                // Lấy lại danh sách Providers nếu ModelState không hợp lệ
+                // Load lại danh sách Providers để tránh lỗi
                 var user1 = await _signInManager.GetTwoFactorAuthenticationUserAsync();
                 if (user1 != null)
                 {
                     var userFactors = await _userManager.GetValidTwoFactorProvidersAsync(user1);
                     model.Providers = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
                 }
+                else
+                {
+                    model.Providers = new List<SelectListItem>(); // Tránh null reference
+                }
 
                 return View(model);
             }
+
 
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)

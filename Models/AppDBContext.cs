@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
+
 namespace NetCoreMVC.Models;
 
 public class AppDbContext : IdentityDbContext<AppUser>{
@@ -29,7 +30,12 @@ public class AppDbContext : IdentityDbContext<AppUser>{
                 entityType.SetTableName(tableName.Substring(6));
             } 
         }
+
+        modelBuilder.Entity<Category>(entity => {
+            entity.HasIndex(x => x.Slug);
+        });
     }
 
     public DbSet<Contact> Contacts { get; set; }
+    public DbSet<Category> Categories { get; set; }
 }

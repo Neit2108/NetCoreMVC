@@ -17,6 +17,7 @@ namespace NetCoreMVC.Areas.Identity.Models.AccountViewModels
         [Required]
         public string SelectedProvider { get; set; }
 
+        [Required]
         public ICollection<SelectListItem> Providers { get; set; }
 
         public string ReturnUrl { get; set; }
